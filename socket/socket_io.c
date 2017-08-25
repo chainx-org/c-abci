@@ -54,16 +54,16 @@ int socket_read(struct tcp_socket *tsocket, char *buff, int len, int timeout)
 			if ( poll(&fds, 1, timeout) <= 0 ) /* 超时或出错返回 */
 			{
 				if ( errno == 0 )
-					tsocket->errno = ETIMEDOUT;
+					tsocket->error = ETIMEDOUT;
 				else
-					tsocket->errno = errno;
+					tsocket->error = errno;
 				return -1;
 			}
 		}
 
 	}while ( timeout > 0 || timeout == -1 );
 
-	tsocket->errno = EAGAIN; /* 非阻塞读取数据  数据未读完 */
+	tsocket->error = EAGAIN; /* 非阻塞读取数据  数据未读完 */
 
 	return -1;
 }
@@ -122,7 +122,7 @@ int socket_send(struct tcp_socket *tsocket, const char *buff, int len, int timeo
 
 	}while ( timeout > 0 || timeout == -1 );
 
-	tsocket->errno = EAGAIN; /* 非堵塞发送数据，数据未发送完  */
+	tsocket->error = EAGAIN; /* 非堵塞发送数据，数据未发送完  */
 
 	return -1;
 }

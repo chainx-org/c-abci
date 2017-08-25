@@ -6,7 +6,7 @@
 #ifndef __SOCKET_IO_H__
 #define __SOCKET_IO_H__
 
-#include "socket.h"
+#include "socket_tcp.h"
 
 /************************************************************************************************
  * 从socket的IO口读取数据
