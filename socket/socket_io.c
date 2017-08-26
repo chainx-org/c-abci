@@ -5,10 +5,10 @@
 
 #include "socket_io.h"
 
-int socket_read(struct tcp_socket *tsocket, char *buff, int len, int timeout)
+size_t socket_read(struct socket_tcp *tsocket, char *buff, size_t len, int timeout)
 {
-	int cnt = 0;				/* 读取的总字节数 */
-	int bytes = 0;				/* 本次读取的字节数 */
+	size_t cnt = 0;				/* 读取的总字节数 */
+	size_t bytes = 0;				/* 本次读取的字节数 */
 	struct timeval start = {};	
 	struct timeval end = {};
 	struct pollfd fds = {tsocket->fd, POLLIN};
@@ -68,10 +68,10 @@ int socket_read(struct tcp_socket *tsocket, char *buff, int len, int timeout)
 	return -1;
 }
 
-int socket_send(struct tcp_socket *tsocket, const char *buff, int len, int timeout)
+size_t socket_send(struct socket_tcp *tsocket, const char *buff, size_t len, int timeout)
 {
-	int cnt = 0;				/* 已发送的总字节数 */
-	int bytes = 0;				/* 本次发送的字节数 */
+	size_t cnt = 0;				/* 已发送的总字节数 */
+	size_t bytes = 0;				/* 本次发送的字节数 */
 	struct timeval start = {};
 	struct timeval end = {};
 	struct pollfd fds = {tsocket->fd, POLLOUT};

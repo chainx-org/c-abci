@@ -1,4 +1,4 @@
-include make.cfg
+include ../make.cfg
 
 COLOR_OBJ     = $(COLOR_CYAN)
 COLOR_TAG     = $(COLOR_YELLOW)
@@ -9,12 +9,12 @@ COLOR_TXT     = $(COLOR_GREEN)
 CC:=@${CC}
 AR=@ar -cr
 RM=@rm -rf
-LIBS +=
-INCDIR += -I./include
 CFLAG +=-g
 SRCDIR=./
 LIBDIR=./lib
 OBJDIR=./obj
+LIBS += -L./thirdparty -lprotobuf-c
+INCDIR += -I./include -I./thirdparty/
 TARGET_SO=$(LIBDIR)/types.so
 TARGET_AR=$(LIBDIR)/types.so
 TARGET=$(TARGET_SO) $(TARGET_AR)
@@ -46,7 +46,7 @@ $(TARGET_SO): $(OBJLIST)
 	$(ECHO) $(COLOR_TXT)"\n\t- DYNAMIC\t===>\t"$(COLOR_TAG)"$(notdir $(TARGET_SO))"$(COLOR_NONE)
 	$(LINK_SO) -o $@ $^ $(LIBS) 
 	$(ECHO) $(COLOR_TXT)"\t- DYNAMIC\t>>>>\t"$(COLOR_RED)"$(notdir $@)"$(COLOR_TXT)"\t<<<  COMPLETE"$(COLOR_NONE)
-	$(CP)
+	-$(CP)
 	
 
 $(TARGET_AR): $(OBJLIST)

@@ -16,7 +16,7 @@
  * @timeout:超时设置，=-1 一直阻塞接收数据 =0不阻塞接收数据 >0设置超时接收数据 [单位:ms]
  * @return: >0 返回读取的字节数 =0对端已关闭socket  =-1读取数据出错(错误码存放在tsocket->error)
  ************************************************************************************************/
-int socket_read(struct tcp_socket *tsocket, char *buff, int len, int timeout);
+size_t socket_read(struct socket_tcp *tsocket, char *buff, size_t len, int timeout);
 
 
 
@@ -29,6 +29,6 @@ int socket_read(struct tcp_socket *tsocket, char *buff, int len, int timeout);
  * @timeout:超时设置，=-1一直阻塞发送数据 =0不阻塞发送数据 >0设置超时发送数据 [单位:ms]
  * @return: 成功返回发送的字节数，失败返回-1(错误码存放在tsocket->error)
  ************************************************************************************************/
-int socket_send(struct tcp_socket *tsocket, const char *buff, int len, int timeout);
+size_t socket_send(struct socket_tcp *tsocket, const char *buff, size_t len, int timeout);
 
 #endif

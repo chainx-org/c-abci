@@ -15,7 +15,7 @@ static struct addrinfo *_get_family_addrinfo(const char *addr, const char *port,
 
 
 
-int socket_listen(struct tcp_socket *tsocket, const char *ipaddr, const char *port)
+int socket_listen(struct socket_tcp *tsocket, const char *ipaddr, const char *port)
 {
 	int optval = SO_REUSEADDR;
 	struct addrinfo *ai = NULL;
@@ -78,7 +78,7 @@ int socket_listen(struct tcp_socket *tsocket, const char *ipaddr, const char *po
 	return -1;
 }
 
-int socket_connect(struct tcp_socket *tsocket, const char *ipaddr, const char *port, int timeout)
+int socket_connect(struct socket_tcp *tsocket, const char *ipaddr, const char *port, int timeout)
 {
 	struct addrinfo *ai = NULL;
 	struct addrinfo *aiptr = NULL;
@@ -154,7 +154,7 @@ int socket_connect(struct tcp_socket *tsocket, const char *ipaddr, const char *p
 	return -1;
 }
 
-int socket_accept(const struct tcp_socket *lsocket, struct tcp_socket *csocket)
+int socket_accept(const struct socket_tcp *lsocket, struct socket_tcp *csocket)
 {
 	if ( lsocket == NULL || lsocket->stat != FD_INIT || csocket == NULL )
 		return -1;
@@ -182,7 +182,7 @@ int socket_accept(const struct tcp_socket *lsocket, struct tcp_socket *csocket)
 	return -1;
 }
 
-int socket_close(struct tcp_socket *tsocket)
+int socket_close(struct socket_tcp *tsocket)
 {
 	int ret = 0;
 

@@ -25,7 +25,7 @@
 
 
 /* 套接字相关信息结构体 */
-struct tcp_socket
+struct socket_tcp
 {
 	int      fd;						/* socket fd */	
 	uint16_t localport;					/* 本地端口 */	
@@ -56,7 +56,7 @@ struct tcp_socket
  * @port:待绑定监听的本端IP端口
  * @return: 成功返回0，失败返回-1(错误码存放在tsocket->error)
  ************************************************************************************************/
-int socket_listen(struct tcp_socket *tsocket, const char *ipaddr, const char *port);
+int socket_listen(struct socket_tcp *tsocket, const char *ipaddr, const char *port);
 
 
 /************************************************************************************************
@@ -67,7 +67,7 @@ int socket_listen(struct tcp_socket *tsocket, const char *ipaddr, const char *po
  * @timeout:连接对端超时设置 <0:使用默认超时时间 0:不阻塞连接对端 >0:设置超时连接 [单位:ms]
  * @return: 成功返回0，失败返回-1(错误码存放在tsocket->error)
  ************************************************************************************************/
-int socket_connect(struct tcp_socket *tsocket, const char *ipaddr, const char *port, int timeout);
+int socket_connect(struct socket_tcp *tsocket, const char *ipaddr, const char *port, int timeout);
 
 
 /************************************************************************************************
@@ -76,7 +76,7 @@ int socket_connect(struct tcp_socket *tsocket, const char *ipaddr, const char *p
  * @csocket:输出参数，接收到的新客户端socket，由本函数填充结构体值  [c:client]
  * @return: 成功返回0，失败返回-1(错误码存放在csocket->error)
  ************************************************************************************************/
-int socket_accept(const struct tcp_socket *lsocket, struct tcp_socket *csocket);
+int socket_accept(const struct socket_tcp *lsocket, struct socket_tcp *csocket);
 
 
 /************************************************************************************************
@@ -84,7 +84,7 @@ int socket_accept(const struct tcp_socket *lsocket, struct tcp_socket *csocket);
  * @tsocket:待关闭套接字的结构体
  * @return: 成功返回0，失败返回-1(错误码存放在tsocket->error)
  ************************************************************************************************/
-int socket_close(struct tcp_socket *tsocket);
+int socket_close(struct socket_tcp *tsocket);
 
 /************************************************************************************************
  * 设置fd的标志

@@ -45,7 +45,7 @@ $(TARGET_BIN): $(OBJLIST)
 	$(ECHO) $(COLOR_TXT)"\n\t- DYNAMIC\t===>\t"$(COLOR_TAG)"$(notdir $(TARGET_BIN))"$(COLOR_NONE)
 	$(LINK) -o $@ $^ $(LIBS) 
 	$(ECHO) $(COLOR_TXT)"\t- DYNAMIC\t>>>>\t"$(COLOR_RED)"$(notdir $@)"$(COLOR_TXT)"\t<<<  COMPLETE"$(COLOR_NONE)
-	$(CP)
+	-$(CP)
 
 clean:
 	-$(RM) $(OBJDIR)

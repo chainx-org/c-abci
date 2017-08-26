@@ -46,7 +46,7 @@ $(TARGET_SO): $(OBJLIST)
 	$(ECHO) $(COLOR_TXT)"\n\t- DYNAMIC\t===>\t"$(COLOR_TAG)"$(notdir $(TARGET_SO))"$(COLOR_NONE)
 	$(LINK_SO) -o $@ $^ $(LIBS) 
 	$(ECHO) $(COLOR_TXT)"\t- DYNAMIC\t>>>>\t"$(COLOR_RED)"$(notdir $@)"$(COLOR_TXT)"\t<<<  COMPLETE"$(COLOR_NONE)
-	$(CP)
+	-$(CP)
 	
 
 $(TARGET_AR): $(OBJLIST)
