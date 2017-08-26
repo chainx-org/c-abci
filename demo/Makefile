@@ -9,16 +9,17 @@ COLOR_TXT     = $(COLOR_GREEN)
 CC:=@${CC}
 AR=@ar -cr
 RM=@rm -rf
-LIBS +=
-INCDIR += -I./include
+INCDIR += -I../include
 CFLAG +=-g
 SRCDIR=./
 BINDIR=./bin
 OBJDIR=./obj
-TARGET_BIN=(BINDIR)/dummy
+TARGET_BIN=$(BINDIR)/c-dummy
 TARGET=$(TARGET_BIN)
 SRCLIST=$(wildcard *.c)
 OBJLIST=$(SRCLIST:%.c=$(OBJDIR)/%.o)
+LIBS += -L../lib/ -lc-abci -lsocket -L../lib/ -ltypes -L../lib/ -lencoding \
+	   	-L../lib/ -lsocket
 ############################################################################
 
 
@@ -41,7 +42,6 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(INCDIR) $(CFLAG) -o $@ $<
 
 $(TARGET_BIN): $(OBJLIST)
-	@echo $(CP)
 	$(ECHO) $(COLOR_TXT)"\n\t- DYNAMIC\t===>\t"$(COLOR_TAG)"$(notdir $(TARGET_BIN))"$(COLOR_NONE)
 	$(LINK) -o $@ $^ $(LIBS) 
 	$(ECHO) $(COLOR_TXT)"\t- DYNAMIC\t>>>>\t"$(COLOR_RED)"$(notdir $@)"$(COLOR_TXT)"\t<<<  COMPLETE"$(COLOR_NONE)

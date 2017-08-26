@@ -15,8 +15,8 @@ CFLAG +=-g
 SRCDIR=./
 LIBDIR=./lib
 OBJDIR=./obj
-TARGET_SO=$(LIBDIR)/encoding.so
-TARGET_AR=$(LIBDIR)/encoding.a
+TARGET_SO=$(LIBDIR)/libencoding.so
+TARGET_AR=$(LIBDIR)/libencoding.a
 TARGET=$(TARGET_SO) $(TARGET_AR)
 SRCLIST=$(wildcard *.c)
 OBJLIST=$(SRCLIST:%.c=$(OBJDIR)/%.o)

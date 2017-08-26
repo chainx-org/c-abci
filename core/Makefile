@@ -9,14 +9,14 @@ COLOR_TXT     = $(COLOR_GREEN)
 CC:=@${CC}
 AR=@ar -cr
 RM=@rm -rf
-LIBS +=
-INCDIR += -I./include
+INCDIR += -I./include -I../include
 CFLAG +=-g
+LIBS +=
 SRCDIR=./
 LIBDIR=./lib
 OBJDIR=./obj
-TARGET_SO=$(LIBDIR)/c-abci.so
-TARGET_AR=$(LIBDIR)/c-abci.a
+TARGET_SO=$(LIBDIR)/libc-abci.so
+TARGET_AR=$(LIBDIR)/libc-abci.a
 TARGET=$(TARGET_SO) $(TARGET_AR)
 SRCLIST=$(wildcard *.c)
 OBJLIST=$(SRCLIST:%.c=$(OBJDIR)/%.o)
@@ -42,7 +42,6 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(INCDIR) $(CFLAG) -o $@ $<
 
 $(TARGET_SO): $(OBJLIST)
-	@echo $(CP)
 	$(ECHO) $(COLOR_TXT)"\n\t- DYNAMIC\t===>\t"$(COLOR_TAG)"$(notdir $(TARGET_SO))"$(COLOR_NONE)
 	$(LINK_SO) -o $@ $^ $(LIBS) 
 	$(ECHO) $(COLOR_TXT)"\t- DYNAMIC\t>>>>\t"$(COLOR_RED)"$(notdir $@)"$(COLOR_TXT)"\t<<<  COMPLETE"$(COLOR_NONE)
