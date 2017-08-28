@@ -13,7 +13,7 @@ static int CheckTx(Types__RequestCheckTx *req, Types__ResponseCheckTx *checktx)
 {
 }
 
-static int Commit(Types__RequestCommit *req, Types__ResponseCommit *commit)
+static int Commit(Types__ResponseCommit *commit)
 {
 }
 
@@ -26,7 +26,7 @@ static int SetOption(Types__RequestSetOption *req, Types__ResponseSetOption *rsp
 {
 }
 
-static int InitChain(Types__RequestInitChain *req, Types__ResponseInitChain *rsp)
+static int InitChain(Types__RequestInitChain *req)
 {
 }
 
@@ -58,13 +58,13 @@ int ABCIApplication(Types__Request *request, Types__Response *response)
 			ret = CheckTx(request->check_tx, response->check_tx);
 			break ;
 		case TYPES__REQUEST__VALUE_COMMIT:
-			ret = Commit(request->commit, response->commit);
+			ret = Commit(response->commit);
 			break ;
 		case TYPES__REQUEST__VALUE_QUERY:
 			ret = Query(request->query, response->query);
 			break ;
 		case TYPES__REQUEST__VALUE_INIT_CHAIN:
-			ret = InitChain(request->init_chain, response->init_chain);
+			ret = InitChain(request->init_chain);
 			break ;
 		case TYPES__REQUEST__VALUE_BEGIN_BLOCK:
 			ret = BeginBlock(request->begin_block, response->begin_block);

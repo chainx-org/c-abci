@@ -150,9 +150,47 @@ static int handle_response(struct socket_tcp *tsocket, Types__Response *response
 		printf("send data failed.\n");
 	}
 
-	if ( response->value_case == TYPES__RESPONSE__VALUE_FLUSH )
+	switch( response->value_case )
 	{
-		/* flush */
+		case TYPES__RESPONSE__VALUE_ECHO:
+			free_echo(response->echo);
+			break ;
+		case TYPES__RESPONSE__VALUE_FLUSH:
+			free_flush(response->flush);
+		//	flush();
+			break ;
+		case TYPES__RESPONSE__VALUE_INFO:
+			free_info(response->info);
+			break ;
+		case TYPES__RESPONSE__VALUE_SET_OPTION:
+			free_setoption(response->set_option);
+			break ;
+		case TYPES__RESPONSE__VALUE_DELIVER_TX:
+			free_delivertx(response->deliver_tx);
+			break ;
+		case TYPES__RESPONSE__VALUE_CHECK_TX:
+			free_checktx(response->check_tx);
+			break ;
+		case TYPES__RESPONSE__VALUE_COMMIT:
+			free_commit(response->commit);
+			break ;
+		case TYPES__RESPONSE__VALUE_QUERY:
+			free_query(response->query);
+			break ;
+		case TYPES__RESPONSE__VALUE_INIT_CHAIN:
+			free_initchain(response->init_chain);
+			break ;
+		case TYPES__RESPONSE__VALUE_BEGIN_BLOCK:
+			free_beginblock(response->begin_block);
+			break ;
+		case TYPES__RESPONSE__VALUE_END_BLOCK:
+			free_endblock(response->end_block);
+			break ;
+		case TYPES__RESPONSE__VALUE_EXCEPTION:
+			free_exception(response->exception);
+		default:
+			return -1;
 	}
+
 	return 0;
 }
