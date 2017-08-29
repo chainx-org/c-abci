@@ -1,5 +1,6 @@
 
 #include "dummy.h"
+#include "dlist.h"
 
 static int Info(Types__ResponseInfo *info)
 {
@@ -15,6 +16,9 @@ static int CheckTx(Types__RequestCheckTx *req, Types__ResponseCheckTx *checktx)
 
 static int Commit(Types__ResponseCommit *commit)
 {
+	struct dlist dlist = {};
+	
+	//insert_tail(&dlist, (void*)dummy, sizeof(dummy));
 }
 
 static int Query(Types__RequestQuery *req, Types__ResponseQuery *rsp)
