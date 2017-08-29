@@ -201,7 +201,8 @@ struct  _Types__RequestQuery
   protobuf_c_boolean has_height;
   uint64_t height;
   protobuf_c_boolean has_prove;
-  protobuf_c_boolean prove;
+  ProtobufCBinaryData prove;
+  //protobuf_c_boolean prove;
 };
 #define TYPES__REQUEST_QUERY__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&types__request_query__descriptor) \

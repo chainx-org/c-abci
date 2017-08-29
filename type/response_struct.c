@@ -1,7 +1,7 @@
 
-#include "struct.h"
+#include "response_struct.h"
 
-Types__ResponseEcho *malloc_echo()
+Types__ResponseEcho *response_malloc_echo()
 {
 	Types__ResponseEcho *echo = NULL;
 
@@ -16,7 +16,7 @@ Types__ResponseEcho *malloc_echo()
 	return echo;
 }
 
-Types__ResponseFlush *malloc_flush()
+Types__ResponseFlush *response_malloc_flush()
 {
 	Types__ResponseFlush *flush = NULL;
 	flush = (Types__ResponseFlush*)malloc(sizeof(*flush));
@@ -30,7 +30,7 @@ Types__ResponseFlush *malloc_flush()
 	return flush;
 }
 
-Types__ResponseInfo *malloc_info()
+Types__ResponseInfo *response_malloc_info()
 {
 	Types__ResponseInfo *info = NULL;
 	info = (Types__ResponseInfo*)malloc(sizeof(*info));
@@ -44,7 +44,7 @@ Types__ResponseInfo *malloc_info()
 	return info;
 }
 
-Types__ResponseSetOption *malloc_setoption()
+Types__ResponseSetOption *response_malloc_setoption()
 {
 	Types__ResponseSetOption *setoption = NULL;
 	setoption = (Types__ResponseSetOption*)malloc(sizeof(*setoption));
@@ -58,7 +58,7 @@ Types__ResponseSetOption *malloc_setoption()
 	return setoption;
 }
 
-Types__ResponseDeliverTx *malloc_delivertx()
+Types__ResponseDeliverTx *response_malloc_delivertx()
 {
 	Types__ResponseDeliverTx *delivertx = NULL;
 	delivertx = (Types__ResponseDeliverTx*)malloc(sizeof(*delivertx));
@@ -71,7 +71,7 @@ Types__ResponseDeliverTx *malloc_delivertx()
 	return delivertx;
 }
 
-Types__ResponseCheckTx *malloc_checktx()
+Types__ResponseCheckTx *response_malloc_checktx()
 {
 	Types__ResponseCheckTx *checktx = NULL;
 	checktx = (Types__ResponseCheckTx*)malloc(sizeof(*checktx));
@@ -84,7 +84,7 @@ Types__ResponseCheckTx *malloc_checktx()
 	return checktx;
 }
 
-Types__ResponseCommit *malloc_commit()
+Types__ResponseCommit *response_malloc_commit()
 {
 	Types__ResponseCommit *commit = NULL;
 	commit = (Types__ResponseCommit*)malloc(sizeof(*commit));
@@ -97,7 +97,7 @@ Types__ResponseCommit *malloc_commit()
 	return commit;
 }
 
-Types__ResponseQuery *malloc_query()
+Types__ResponseQuery *response_malloc_query()
 {
 	Types__ResponseQuery *query = NULL;
 	query = (Types__ResponseQuery*)malloc(sizeof(*query));
@@ -111,7 +111,7 @@ Types__ResponseQuery *malloc_query()
 	return query;
 }
 
-Types__ResponseInitChain *malloc_initchain()
+Types__ResponseInitChain *response_malloc_initchain()
 {
 	Types__ResponseInitChain *initchain = NULL;
 	initchain = (Types__ResponseInitChain*)malloc(sizeof(*initchain));
@@ -125,7 +125,7 @@ Types__ResponseInitChain *malloc_initchain()
 	return initchain;
 }
 
-Types__ResponseBeginBlock *malloc_beginblock()
+Types__ResponseBeginBlock *response_malloc_beginblock()
 {
 	Types__ResponseBeginBlock *beginblock = NULL;
 	beginblock = (Types__ResponseBeginBlock*)malloc(sizeof(*beginblock));
@@ -139,7 +139,7 @@ Types__ResponseBeginBlock *malloc_beginblock()
 	return beginblock;
 }
 
-Types__ResponseEndBlock *malloc_endblock()
+Types__ResponseEndBlock *response_malloc_endblock()
 {
 	Types__ResponseEndBlock *endblock = NULL;
 	endblock = (Types__ResponseEndBlock*)malloc(sizeof(*endblock));
@@ -152,7 +152,7 @@ Types__ResponseEndBlock *malloc_endblock()
 	return endblock;
 }
 
-Types__ResponseException *malloc_exception()
+Types__ResponseException *response_malloc_exception()
 {
 	Types__ResponseException *exception = NULL;
 	exception = (Types__ResponseException*)malloc(sizeof(*exception));
@@ -165,7 +165,7 @@ Types__ResponseException *malloc_exception()
 	return exception;
 }
 
-void free_echo(Types__ResponseEcho *echo)
+void response_free_echo(Types__ResponseEcho *echo)
 {
 	if ( echo != NULL )
 	{
@@ -177,7 +177,7 @@ void free_echo(Types__ResponseEcho *echo)
 	return ;
 }
 
-void free_flush(Types__ResponseFlush *flush)
+void response_free_flush(Types__ResponseFlush *flush)
 {
 	if ( flush )
 	{
@@ -186,7 +186,7 @@ void free_flush(Types__ResponseFlush *flush)
 	return ;
 }
 
-void free_info(Types__ResponseInfo *info)
+void response_free_info(Types__ResponseInfo *info)
 {
 	if ( info )
 	{
@@ -204,7 +204,7 @@ void free_info(Types__ResponseInfo *info)
 	return ;
 }
 
-void free_setoption(Types__ResponseSetOption *setoption)
+void response_free_setoption(Types__ResponseSetOption *setoption)
 {
 	if ( setoption )
 	{
@@ -216,7 +216,7 @@ void free_setoption(Types__ResponseSetOption *setoption)
 	return ;
 }
 
-void free_delivertx(Types__ResponseDeliverTx *delivertx)
+void response_free_delivertx(Types__ResponseDeliverTx *delivertx)
 {
 	if ( delivertx )
 	{
@@ -231,7 +231,7 @@ void free_delivertx(Types__ResponseDeliverTx *delivertx)
 	return ;
 }
 
-void free_checktx(Types__ResponseCheckTx *checktx)
+void response_free_checktx(Types__ResponseCheckTx *checktx)
 {
 	if ( checktx )
 	{
@@ -247,7 +247,7 @@ void free_checktx(Types__ResponseCheckTx *checktx)
 	return ;
 }
 
-void free_commit(Types__ResponseCommit *commit)
+void response_free_commit(Types__ResponseCommit *commit)
 {
 	if ( commit )
 	{
@@ -262,7 +262,7 @@ void free_commit(Types__ResponseCommit *commit)
 	return ;
 }
 
-void free_query(Types__ResponseQuery *query)
+void response_free_query(Types__ResponseQuery *query)
 {
 	if ( query )
 	{
@@ -283,7 +283,7 @@ void free_query(Types__ResponseQuery *query)
 	return ;
 }
 
-void free_initchain(Types__ResponseInitChain *initchain)
+void response_free_initchain(Types__ResponseInitChain *initchain)
 {
 	if ( initchain )
 	{
@@ -292,7 +292,7 @@ void free_initchain(Types__ResponseInitChain *initchain)
 	return ;
 }
 
-void free_beginblock(Types__ResponseBeginBlock *beginblock)
+void response_free_beginblock(Types__ResponseBeginBlock *beginblock)
 {
 	if ( beginblock )
 	{
@@ -305,7 +305,7 @@ void free_validator(Types__Validator *validator)
 {
 }
 
-void free_endblock(Types__ResponseEndBlock *endblock)
+void response_free_endblock(Types__ResponseEndBlock *endblock)
 {
 	if ( endblock )
 	{
@@ -320,7 +320,7 @@ void free_endblock(Types__ResponseEndBlock *endblock)
 	return ;
 }
 
-void free_exception(Types__ResponseException *exception)
+void response_free_exception(Types__ResponseException *exception)
 {
 	if ( exception )
 	{

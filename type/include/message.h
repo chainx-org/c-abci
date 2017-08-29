@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.pb-c.h"
-#include "struct.h"
+#include "response_struct.h"
 
 /************************************************************************************************
  * 填充Echo请求的返回值

@@ -7,7 +7,7 @@
 #include "bigEndian.h"
 #include "socket_tcp.h"
 #include "socket_io.h"
-#include "struct.h"
+#include "response_struct.h"
 
 #define POLLTIMEOUT  5000   /* 单位:ms */
 #define READTIMEOUT  1000   /* 单位:ms */

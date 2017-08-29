@@ -5,7 +5,7 @@
 #include "message.h"
 
 #if 0
-int ToRequestEcho(const Types__Request *request, Types__Response *response)
+int ToRequestEcho(const Types__Request *request)
 {
 }
 
@@ -27,7 +27,7 @@ int ToResponseEcho(const Types__Request *request, Types__Response *response)
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_ECHO;
-	response->echo = malloc_echo();
+	response->echo = response_malloc_echo();
 	if ( response->echo == NULL )
 	{
 		return -1;
@@ -53,7 +53,7 @@ int ToResponseFlush(const Types__Request *request, Types__Response *response)
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_FLUSH;
-	response->flush = malloc_flush();
+	response->flush = response_malloc_flush();
 	if ( response->flush == NULL )
 	{
 		return -1;
@@ -68,7 +68,7 @@ int ToResponseInfo(const Types__Request *request, Types__Response *response)
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_INFO;
-	response->info = malloc_info();
+	response->info = response_malloc_info();
 	if ( response->info == NULL )
 	{
 		return -1;
@@ -83,7 +83,7 @@ int ToResponseSetOption(const Types__Request *request, Types__Response *response
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_SET_OPTION;
-	response->set_option = malloc_setoption();
+	response->set_option = response_malloc_setoption();
 	if ( response->set_option == NULL )
 	{
 		return -1;
@@ -98,7 +98,7 @@ int ToResponseDeliverTx(const Types__Request *request, Types__Response *response
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_DELIVER_TX;
-	response->deliver_tx = malloc_delivertx();
+	response->deliver_tx = response_malloc_delivertx();
 	if ( response->deliver_tx == NULL )
 	{
 		return -1;
@@ -113,7 +113,7 @@ int ToResponseCheckTx(const Types__Request *request, Types__Response *response)
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_CHECK_TX;
-	response->check_tx = malloc_checktx();
+	response->check_tx = response_malloc_checktx();
 	if ( response->check_tx == NULL )
 	{
 		return -1;
@@ -128,7 +128,7 @@ int ToResponseCommit(const Types__Request *request, Types__Response *response)
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_COMMIT;
-	response->commit = malloc_commit();
+	response->commit = response_malloc_commit();
 	if ( response->commit == NULL )
 	{
 		return -1;
@@ -143,7 +143,7 @@ int ToResponseQuery(const Types__Request *request, Types__Response *response)
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_QUERY;
-	response->query = malloc_query();
+	response->query = response_malloc_query();
 	if ( response->query == NULL )
 	{
 		return -1;
@@ -158,7 +158,7 @@ int ToResponseInitChain(const Types__Request *request, Types__Response *response
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_INIT_CHAIN;
-	response->init_chain = malloc_initchain();
+	response->init_chain = response_malloc_initchain();
 	if ( response->init_chain == NULL )
 	{
 		return -1;
@@ -173,7 +173,7 @@ int ToResponseBeginBlock(const Types__Request *request, Types__Response *respons
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_BEGIN_BLOCK;
-	response->begin_block = malloc_beginblock();
+	response->begin_block = response_malloc_beginblock();
 	if ( response->begin_block == NULL )
 	{
 		return -1;
@@ -188,7 +188,7 @@ int ToResponseEndBlock(const Types__Request *request, Types__Response *response)
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_END_BLOCK;
-	response->end_block = malloc_endblock();
+	response->end_block = response_malloc_endblock();
 	if ( response->end_block == NULL )
 	{
 		return -1;
@@ -203,7 +203,7 @@ int ToResponseException(const Types__Request *request, Types__Response *response
 		return -1;
 
 	response->value_case = TYPES__RESPONSE__VALUE_EXCEPTION;
-	response->exception = malloc_exception();
+	response->exception = response_malloc_exception();
 	if ( response->exception == NULL )
 	{
 		return -1;
