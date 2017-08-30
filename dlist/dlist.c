@@ -4,7 +4,7 @@
 
 static DNode *init_node(void *data, size_t size);
 
-static void free_node(DNode* node);
+static void free_node(DNode* node, FreeFunc func);
 
 int create_dlist(struct dlist *dlist)
 {
@@ -106,7 +106,7 @@ int search_dlist(struct dlist *dlist, void *data, size_t size)
 	}while( dlist->curr != dlist->head );
 }
 
-int delete_dlist(struct dlist *dlist, void *data, size_t size)
+int delete_dlist(struct dlist *dlist, void *data, size_t size, FreeFunc func)
 {
 	if ( dlist == NULL || data == NULL )
 	{
@@ -127,14 +127,14 @@ int delete_dlist(struct dlist *dlist, void *data, size_t size)
 	if ( dlist->curr == dlist->tail )
 		dlist->tail = dlist->curr->next;
 
-	free_node(dlist->curr);
+	free_node(dlist->curr, func);
 	dlist->curr = NULL;
 	dlist->size -= 1;
 
 	return 0;
 }
 
-int delete_tail(struct dlist *dlist)
+int delete_tail(struct dlist *dlist, FreeFunc func)
 {
 	if ( dlist == NULL || dlist->tail == NULL )
 	{
@@ -142,7 +142,7 @@ int delete_tail(struct dlist *dlist)
 	}
 	if ( dlist->tail == dlist->head )
 	{
-		free_node(dlist->head);
+		free_node(dlist->head, func);
 		dlist->tail = NULL;
 		dlist->head = NULL;
 		dlist->size = 0;
@@ -154,13 +154,13 @@ int delete_tail(struct dlist *dlist)
 		dlist->tail->prev->next = dlist->tail->next;
 		dlist->tail->next->prev = dlist->tail->prev;
 		dlist->tail = dlist->tail->prev;
-		free_node(dlist->curr);
+		free_node(dlist->curr, func);
 		dlist->size -= 1;
 	}
 	return 0;
 }
 
-int delete_head(struct dlist *dlist)
+int delete_head(struct dlist *dlist, FreeFunc func)
 {
 	if ( dlist == NULL || dlist->tail == NULL )
 	{
@@ -168,7 +168,7 @@ int delete_head(struct dlist *dlist)
 	}
 	if ( dlist->tail == dlist->head )
 	{
-		free_node(dlist->head);
+		free_node(dlist->head, func);
 		dlist->head = NULL;
 		dlist->tail = NULL;
 		dlist->size = 0;
@@ -180,18 +180,18 @@ int delete_head(struct dlist *dlist)
 		dlist->head->prev->next = dlist->head->next;
 		dlist->head->next->prev = dlist->head->prev;
 		dlist->head = dlist->head->next;
-		free_node(dlist->curr);
+		free_node(dlist->curr, func);
 		dlist->size -= 1;
 	}
 }
 
-void destroy_dlist(struct dlist *dlist)
+void destroy_dlist(struct dlist *dlist, FreeFunc func)
 {
 	if ( dlist )
 	{
 		while( dlist->size )
 		{
-			delete_tail(dlist);
+			delete_tail(dlist, func);
 		}
 	}
 }
@@ -216,12 +216,17 @@ static DNode *init_node(void *data, size_t size)
 	return node;
 }
 
-static void free_node(DNode* node)
+static void free_node(DNode* node, FreeFunc func)
 {
 	if ( node )
 	{
 		if ( node->data )
+		{
+			if ( func )
+				func(node->data);
+
 			free(node->data);
+		}
 
 		free(node);
 	}

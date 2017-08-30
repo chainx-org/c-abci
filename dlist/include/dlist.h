@@ -5,6 +5,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+typedef void (*FreeFunc)(void *);
+
 typedef struct DNode{
 	struct DNode *next;
 	struct DNode *prev;
@@ -27,12 +29,12 @@ int insert_head(struct dlist *dlist, void *data, size_t size);
 
 int search_dlist(struct dlist *dlist, void *data, size_t size);
 
-int delete_dlist(struct dlist *dlist, void *data, size_t size);
+int delete_dlist(struct dlist *dlist, void *data, size_t size, FreeFunc func);
 
-int delete_tail(struct dlist *dlist);
+int delete_tail(struct dlist *dlist, FreeFunc func);
 
-int delete_head(struct dlist *dlist);
+int delete_head(struct dlist *dlist, FreeFunc func);
 
-void destroy_dlist(struct dlist *dlist);
+void destroy_dlist(struct dlist *dlist, FreeFunc func);
 
 #endif
