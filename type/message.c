@@ -62,137 +62,207 @@ int ToResponseFlush(const Types__Request *request, Types__Response *response)
 	return 0;
 }
 
-int ToResponseInfo(const Types__Request *request, Types__Response *response)
+int ToResponseInfo(const Types__Request *request, Types__Response *response, Types__ResponseInfo *info)
 {
 	if ( request == NULL || response == NULL )
 		return -1;
 
+	if ( info != NULL )
+	{
+		response->info = info;
+	}
+	else
+	{
+		response->info = response_malloc_info();
+		if ( response->info == NULL )
+		{
+			return -1;
+		}
+	}
 	response->value_case = TYPES__RESPONSE__VALUE_INFO;
-	response->info = response_malloc_info();
-	if ( response->info == NULL )
-	{
-		return -1;
-	}
 
 	return 0;
 }
 
-int ToResponseSetOption(const Types__Request *request, Types__Response *response)
+int ToResponseSetOption(const Types__Request *request, Types__Response *response, Types__ResponseSetOption *setoption)
 {
 	if ( request == NULL || response == NULL )
 		return -1;
 
+	if ( setoption != NULL )
+	{
+		response->setoption = setoption;
+	}
+	else
+	{
+		response->set_option = response_malloc_setoption();
+		if ( response->set_option == NULL )
+		{
+			return -1;
+		}
+	}
 	response->value_case = TYPES__RESPONSE__VALUE_SET_OPTION;
-	response->set_option = response_malloc_setoption();
-	if ( response->set_option == NULL )
-	{
-		return -1;
-	}
 
 	return 0;
 }
 
-int ToResponseDeliverTx(const Types__Request *request, Types__Response *response)
+int ToResponseDeliverTx(const Types__Request *request, Types__Response *response, Types__ResponseDeliverTx *delivertx)
 {
 	if ( request == NULL || response == NULL )
 		return -1;
+
+	if ( delivertx != NULL )
+	{
+		response->delivertx = delivertx;
+	}
+	else
+	{
+		response->deliver_tx = response_malloc_delivertx();
+		if ( response->deliver_tx == NULL )
+		{
+			return -1;
+		}
+	}
 
 	response->value_case = TYPES__RESPONSE__VALUE_DELIVER_TX;
-	response->deliver_tx = response_malloc_delivertx();
-	if ( response->deliver_tx == NULL )
-	{
-		return -1;
-	}
 
 	return 0;
 }
 
-int ToResponseCheckTx(const Types__Request *request, Types__Response *response)
+int ToResponseCheckTx(const Types__Request *request, Types__Response *response, Types__ResponseCheckTx *checktx)
 {
 	if ( request == NULL || response == NULL )
 		return -1;
+
+	if ( checktx != NULL )
+	{
+		response->check_tx = checktx;
+	}
+	else
+	{
+		response->check_tx = response_malloc_checktx();
+		if ( response->check_tx == NULL )
+		{
+			return -1;
+		}
+	}
 
 	response->value_case = TYPES__RESPONSE__VALUE_CHECK_TX;
-	response->check_tx = response_malloc_checktx();
-	if ( response->check_tx == NULL )
-	{
-		return -1;
-	}
 
 	return 0;
 }
 
-int ToResponseCommit(const Types__Request *request, Types__Response *response)
+int ToResponseCommit(const Types__Request *request, Types__Response *response, Types__ResponseCommit *commit)
 {
 	if ( request == NULL || response == NULL )
 		return -1;
+
+	if ( commit != NULL )
+	{
+		response->commit =  commit;
+	}
+	else
+	{
+		response->commit = response_malloc_commit();
+		if ( response->commit == NULL )
+		{
+			return -1;
+		}
+	}
 
 	response->value_case = TYPES__RESPONSE__VALUE_COMMIT;
-	response->commit = response_malloc_commit();
-	if ( response->commit == NULL )
-	{
-		return -1;
-	}
 
 	return 0;
 }
 
-int ToResponseQuery(const Types__Request *request, Types__Response *response)
+int ToResponseQuery(const Types__Request *request, Types__Response *response, Types__ResponseQuery *query)
 {
 	if ( request == NULL || response == NULL )
 		return -1;
+
+	if ( query != NULL )
+	{
+		response->query = query;
+	}
+	else
+	{
+		response->query = response_malloc_query();
+		if ( response->query == NULL )
+		{
+			return -1;
+		}
+	}
 
 	response->value_case = TYPES__RESPONSE__VALUE_QUERY;
-	response->query = response_malloc_query();
-	if ( response->query == NULL )
-	{
-		return -1;
-	}
 
 	return 0;
 }
 
-int ToResponseInitChain(const Types__Request *request, Types__Response *response)
+int ToResponseInitChain(const Types__Request *request, Types__Response *response, Types__ResponseInitChain *initchain)
 {
 	if ( request == NULL || response == NULL )
 		return -1;
+
+	if ( initchain != NULL )
+	{
+		response->init_chain = initchain;
+	}
+	else
+	{
+		response->init_chain = response_malloc_initchain();
+		if ( response->init_chain == NULL )
+		{
+			return -1;
+		}
+	}
 
 	response->value_case = TYPES__RESPONSE__VALUE_INIT_CHAIN;
-	response->init_chain = response_malloc_initchain();
-	if ( response->init_chain == NULL )
-	{
-		return -1;
-	}
 
 	return 0;
 }
 
-int ToResponseBeginBlock(const Types__Request *request, Types__Response *response)
+int ToResponseBeginBlock(const Types__Request *request, Types__Response *response, Types__ResponseBeginBlock *beginblock)
 {
 	if ( request == NULL || response == NULL )
 		return -1;
+
+	if ( beginblock != NULL )
+	{
+		response->beginblock = beginblock;
+	}
+	else
+	{
+		response->begin_block = response_malloc_beginblock();
+		if ( response->begin_block == NULL )
+		{
+			return -1;
+		}
+	}
 
 	response->value_case = TYPES__RESPONSE__VALUE_BEGIN_BLOCK;
-	response->begin_block = response_malloc_beginblock();
-	if ( response->begin_block == NULL )
-	{
-		return -1;
-	}
 
 	return 0;
 }
 
-int ToResponseEndBlock(const Types__Request *request, Types__Response *response)
+int ToResponseEndBlock(const Types__Request *request, Types__Response *response, Types__ResponseEndBlock *endblock)
 {
 	if ( request == NULL || response == NULL )
 		return -1;
 
-	response->value_case = TYPES__RESPONSE__VALUE_END_BLOCK;
-	response->end_block = response_malloc_endblock();
-	if ( response->end_block == NULL )
+	if ( endblock != NULL )
 	{
-		return -1;
+		response->endblock = endblock;
 	}
+	else
+	{
+		response->end_block = response_malloc_endblock();
+		if ( response->end_block == NULL )
+		{
+			return -1;
+		}
+	}
+
+	response->value_case = TYPES__RESPONSE__VALUE_END_BLOCK;
 
 	return 0;
 }

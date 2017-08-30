@@ -13,7 +13,7 @@
 #define READTIMEOUT  1000   /* 单位:ms */
 #define SENDTIMEOUT  1000   /* 单位:ms*/
 
-typedef int (*Application)(Types__Request *, Types__Response *);
+typedef void* (*Application)(Types__Request *);
 
 size_t readsize(struct socket_tcp *tsocket, int timeout);
 

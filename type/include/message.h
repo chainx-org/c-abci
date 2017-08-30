@@ -20,23 +20,23 @@ int ToResponseEcho(const Types__Request *request, Types__Response *response);
 
 int ToResponseFlush(const Types__Request *request, Types__Response *response);
 
-int ToResponseInfo(const Types__Request *request, Types__Response *response);
+int ToResponseInfo(const Types__Request *request, Types__Response *response, Types__ResponseInfo *info);
 
-int ToResponseSetOption(const Types__Request *request, Types__Response *response);
+int ToResponseSetOption(const Types__Request *request, Types__Response *response, Types__ResponseSetOption *setoption);
 
-int ToResponseDeliverTx(const Types__Request *request, Types__Response *response);
+int ToResponseDeliverTx(const Types__Request *request, Types__Response *response, Types__ResponseDeliverTx *delivertx);
 
-int ToResponseCheckTx(const Types__Request *request, Types__Response *response);
+int ToResponseCheckTx(const Types__Request *request, Types__Response *response, Types__ResponseCheckTx *checktx);
 
-int ToResponseCommit(const Types__Request *request, Types__Response *response);
+int ToResponseCommit(const Types__Request *request, Types__Response *response, Types__ResponseCommit *commit);
 
-int ToResponseQuery(const Types__Request *request, Types__Response *response);
+int ToResponseQuery(const Types__Request *request, Types__Response *response, Types__ResponseQuery *query);
 
-int ToResponseInitChain(const Types__Request *request, Types__Response *response);
+int ToResponseInitChain(const Types__Request *request, Types__Response *response, Types__ResponseInitChain *initchain);
 
-int ToResponseBeginBlock(const Types__Request *request, Types__Response *response);
+int ToResponseBeginBlock(const Types__Request *request, Types__Response *response, Types__ResponseBeginBlock *beginblock);
 
-int ToResponseEndBlock(const Types__Request *request, Types__Response *response);
+int ToResponseEndBlock(const Types__Request *request, Types__Response *response, Types__ResponseEndBlock *endblock);
 
 int ToResponseException(const Types__Request *request, Types__Response *response);
 

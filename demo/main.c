@@ -5,6 +5,7 @@
 
 void kill_signal(int sig)
 {
+	destroy_dummy();
 	server_stop();
 	printf("Exit From C-ABCI Server\n");
 	exit( 1 );
@@ -27,6 +28,8 @@ int main(int argc, char *argv[])
 		strcpy(ipaddr, argv[1]);
 		strcpy(port, argv[2]);
 	}
+
+	init_dummy();
 
 	server_init(ipaddr, port);
 
