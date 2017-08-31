@@ -86,7 +86,6 @@ Types__CodeType set_state(uint8_t *key, uint8_t *value, uint8_t *tx, size_t keyl
 		free_data(&data);
 		return TYPES__CODE_TYPE__InternalError;
 	}
-	printf("txlen:%lu\n", txlen);
 	memcpy(data.tx, tx, txlen);
 
 	data.key = (uint8_t*)malloc(keylen);
@@ -95,7 +94,6 @@ Types__CodeType set_state(uint8_t *key, uint8_t *value, uint8_t *tx, size_t keyl
 		free_data(&data);
 		return TYPES__CODE_TYPE__InternalError;
 	}
-	printf("keylen:%lu\n", keylen);
 	memcpy(data.key, key, keylen);
 
 	data.value = (uint8_t*)malloc(valuelen);
@@ -104,7 +102,6 @@ Types__CodeType set_state(uint8_t *key, uint8_t *value, uint8_t *tx, size_t keyl
 		free_data(&data);
 		return TYPES__CODE_TYPE__InternalError;
 	}
-	printf("valuelen:%lu\n", valuelen);
 	memcpy(data.value, value, valuelen);
 
 	ihash = HashDefaultCB(value, valuelen);
@@ -117,15 +114,8 @@ Types__CodeType set_state(uint8_t *key, uint8_t *value, uint8_t *tx, size_t keyl
 		free_data(&data);
 		return TYPES__CODE_TYPE__InternalError;
 	}
-	int i = 0;
-	for (i = 0; i < HASHLEN; i++)
-	{
-		printf("chash[%d]:0x%x\n", i, chash[i]);
-	}
 
-	printf("HASHLEN:%d\n", HASHLEN);
 	memcpy(data.apphash, chash, HASHLEN);
-	printf("memmcpy done\n");
 
 	insert_tail(&dummy, &data, sizeof(struct data));
 
@@ -151,7 +141,6 @@ int *getcols(uint8_t *value, uint8_t split, uint8_t words[][64])
 
 	for (i = 0; value[i] != (uint8_t)'\0'; i++)
 	{
-		printf("value[%d]:0x%x\n", i, value[i]);
 		if ( value[i] != split )
 		{
 			words[cols][j] = value[i];
@@ -166,12 +155,7 @@ int *getcols(uint8_t *value, uint8_t split, uint8_t words[][64])
 	}
 	cols += 1;
 	bytes[cols] = j;
-
-	printf("cols:%d\n", cols);
 	bytes[0] = cols;
-	for (i = 0; i < cols; i++)
-	{
-		printf("bytes[%d]:%d\n", i, bytes[i]);
-	}
+
 	return bytes;
 }

@@ -3,7 +3,6 @@
 #include "util.h"
 
 #define VERSION "1.0.0"
-#define HASHLEN 8
 
 static Types__ResponseInfo *Info()
 {
@@ -13,12 +12,13 @@ static Types__ResponseInfo *Info()
 	{
 		return NULL;
 	}
-	info->version = (char*)malloc(strlen(VERSION));
+	info->version = (char*)malloc(strlen(VERSION)+1);
 	if ( info->version == NULL)
 	{
 		response_free_info(info);
 		return NULL;
 	}
+	memset(info->version, 0, strlen(VERSION)+1);
 	info->has_last_block_height = 1;
 	info->last_block_height = get_height();
 	if ( info->last_block_height > 0 )
@@ -58,15 +58,9 @@ static Types__ResponseDeliverTx *DeliverTx(Types__RequestDeliverTx *req)
 	{
 		cols = getcols(req->tx.data, (uint8_t)'=', words);
 		if ( cols[0] == 2 )
-		{
-			printf("set two\n");
 			code = set_state(words[0], words[1], req->tx.data, cols[1], cols[2], req->tx.len);
-		}
 		else
-		{
-			printf("set one\n");
 			code = set_state(words[0], words[0], req->tx.data, cols[1], cols[1], req->tx.len);
-		}
 	}
 
 	deliver_tx = response_malloc_delivertx();
@@ -82,12 +76,13 @@ static Types__ResponseDeliverTx *DeliverTx(Types__RequestDeliverTx *req)
 	else
 		log = "OK";
 
-	deliver_tx->log = (char*)malloc(strlen(log));
+	deliver_tx->log = (char*)malloc(strlen(log)+1);
 	if ( deliver_tx->log == NULL )
 	{
 		response_free_delivertx(deliver_tx);
 		return NULL;
 	}
+	memset(deliver_tx->log, 0, strlen(log)+1);
 	memcpy(deliver_tx->log, log, strlen(log));
 
 	hash = get_last_app_hash();
@@ -132,12 +127,13 @@ static Types__ResponseCheckTx *CheckTx(Types__RequestCheckTx *req)
 	else
 		log = "OK";
 
-	checktx->log =(char*)malloc(strlen(log));
+	checktx->log =(char*)malloc(strlen(log)+1);
 	if ( checktx->log == NULL )
 	{
 		response_free_checktx(checktx);
 		return NULL;
 	}
+	memset(checktx->log, 0, strlen(log)+1);
 	memcpy(checktx->log, log, strlen(log));
 
 	checktx->has_data = 1;
@@ -172,12 +168,13 @@ static Types__ResponseCommit *Commit()
 	commit->has_code = 1;
 	commit->code = TYPES__CODE_TYPE__OK ;
 
-	commit->log = (char*)malloc(strlen(log));
+	commit->log = (char*)malloc(strlen(log)+1);
 	if ( commit->log == NULL )
 	{
 		response_free_commit(commit);
 		return NULL;
 	}
+	memset(commit->log, 0, strlen(log)+1);
 	memcpy(commit->log, log, strlen(log));
 
 	if ( get_height() > 0 )

@@ -67,6 +67,13 @@ loggers: prepare
         cd $(BUILD_PWD); \
     done
 
+dlist: prepare
+	@for DIR in $(DLIST_SRCDIR); do \
+        cd $$DIR; \
+        $(MAKE) all || exit "$$?"; \
+        cd $(BUILD_PWD); \
+    done
+
 demo: prepare
 	@for DIR in $(DEMO_SRCDIR); do \
         cd $$DIR; \
@@ -89,3 +96,7 @@ distclean:
     done
 	-$(RM) $(LIB_ROOT_DIR)
 	-$(RM) $(BIN_ROOT_DIR)
+
+rebuild: distclean  all
+
+.PHONY: all prepare clean distclean rebuild demo types sockets encodings cores
