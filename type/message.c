@@ -91,7 +91,7 @@ int ToResponseSetOption(const Types__Request *request, Types__Response *response
 
 	if ( setoption != NULL )
 	{
-		response->setoption = setoption;
+		response->set_option = setoption;
 	}
 	else
 	{
@@ -113,7 +113,7 @@ int ToResponseDeliverTx(const Types__Request *request, Types__Response *response
 
 	if ( delivertx != NULL )
 	{
-		response->delivertx = delivertx;
+		response->deliver_tx = delivertx;
 	}
 	else
 	{
@@ -228,7 +228,7 @@ int ToResponseBeginBlock(const Types__Request *request, Types__Response *respons
 
 	if ( beginblock != NULL )
 	{
-		response->beginblock = beginblock;
+		response->begin_block = beginblock;
 	}
 	else
 	{
@@ -251,7 +251,7 @@ int ToResponseEndBlock(const Types__Request *request, Types__Response *response,
 
 	if ( endblock != NULL )
 	{
-		response->endblock = endblock;
+		response->end_block = endblock;
 	}
 	else
 	{

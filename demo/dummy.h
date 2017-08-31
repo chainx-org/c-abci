@@ -1,4 +1,5 @@
 
 #include "c-abci.h"
+#include <string.h>
 
-int ABCIApplication(Types__Request *request, Types__Response *response);
+void *ABCIApplication(Types__Request *request);

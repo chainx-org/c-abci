@@ -1,7 +1,9 @@
 
 #include "dummy.h"
+#include "util.h"
 
 #define VERSION "1.0.0"
+#define HASHLEN 8
 
 static Types__ResponseInfo *Info()
 {
@@ -11,26 +13,27 @@ static Types__ResponseInfo *Info()
 	{
 		return NULL;
 	}
-	info->version = malloc(strlen(VERSION));
+	info->version = (char*)malloc(strlen(VERSION));
 	if ( info->version == NULL)
 	{
 		response_free_info(info);
 		return NULL;
 	}
-	info->block_height = get_height();
-	if ( info->block_height > 0 )
+	info->has_last_block_height = 1;
+	info->last_block_height = get_height();
+	if ( info->last_block_height > 0 )
 	{
 		uint8_t *hash = NULL;
-		info->has_last_block_height = 1;
 		info->has_last_block_app_hash = 1;
-		hash = get_hash();
-		info->last_block_app_hash.data = malloc(strlen(hash));
+		hash = get_last_app_hash();
+		info->last_block_app_hash.data = (uint8_t*)malloc(HASHLEN);
 		if ( info->last_block_app_hash.data == NULL )
 		{
 			response_free_info(info);
 			return NULL;
 		}
-		memcpy(info->last_block_app_hash.data, hash, strlen(hash));
+		info->last_block_app_hash.len = HASHLEN;
+		memcpy(info->last_block_app_hash.data, hash, HASHLEN);
 	}
 	else
 	{
@@ -43,9 +46,9 @@ static Types__ResponseInfo *Info()
 
 static Types__ResponseDeliverTx *DeliverTx(Types__RequestDeliverTx *req)
 {
-	int cols = 0;
+	int *cols = 0;
 	char *log = NULL;
-	uint8_t hash[10] = {};
+	uint8_t *hash = NULL;
 	uint8_t words[2][64] = {};
 
 	Types__CodeType code = 0;
@@ -54,16 +57,22 @@ static Types__ResponseDeliverTx *DeliverTx(Types__RequestDeliverTx *req)
 	if ( req->has_tx )
 	{
 		cols = getcols(req->tx.data, (uint8_t)'=', words);
-		if ( cols == 2 )
-			code = set_state(words[0], words[1], req->tx.data);
+		if ( cols[0] == 2 )
+		{
+			printf("set two\n");
+			code = set_state(words[0], words[1], req->tx.data, cols[1], cols[2], req->tx.len);
+		}
 		else
-			code = set_state(words[0], words[0], req->tx.data);
+		{
+			printf("set one\n");
+			code = set_state(words[0], words[0], req->tx.data, cols[1], cols[1], req->tx.len);
+		}
 	}
 
 	deliver_tx = response_malloc_delivertx();
 	if ( deliver_tx == NULL )
 	{
-		return NULL:
+		return NULL;
 	}
 	deliver_tx->has_code = 1;
 	deliver_tx->code = code;
@@ -73,22 +82,27 @@ static Types__ResponseDeliverTx *DeliverTx(Types__RequestDeliverTx *req)
 	else
 		log = "OK";
 
-	deliver_tx->log = malloc(strlen(log));
+	deliver_tx->log = (char*)malloc(strlen(log));
 	if ( deliver_tx->log == NULL )
 	{
-		response_free_delivertx(delivertx);
+		response_free_delivertx(deliver_tx);
 		return NULL;
 	}
 	memcpy(deliver_tx->log, log, strlen(log));
 
-	hash = get_hash();
-	deliver_tx->data.data = malloc(strlen(hash));
-	if ( deliver_tx->data.data == NULL )
+	hash = get_last_app_hash();
+	if ( hash != NULL )
 	{
-		response_free_delivertx(delivertx);
-		return NULL;
+		deliver_tx->has_data = 1;
+		deliver_tx->data.data = (uint8_t*)malloc(HASHLEN);
+		if ( deliver_tx->data.data == NULL )
+		{
+			response_free_delivertx(deliver_tx);
+			return NULL;
+		}
+		deliver_tx->data.len = HASHLEN;
+		memcpy(deliver_tx->data.data, hash, HASHLEN);
 	}
-	memcpy(deliver_tx->data.data, hash, strlen(hash));
 
 	return deliver_tx;
 }
@@ -96,7 +110,7 @@ static Types__ResponseDeliverTx *DeliverTx(Types__RequestDeliverTx *req)
 static Types__ResponseCheckTx *CheckTx(Types__RequestCheckTx *req)
 {
 	uint8_t *log = NULL;
-	uint8_t hash[10] = {};
+	uint8_t *hash = NULL;
 	Types__CodeType code = 0;
 	Types__ResponseCheckTx *checktx = NULL;
 
@@ -118,7 +132,7 @@ static Types__ResponseCheckTx *CheckTx(Types__RequestCheckTx *req)
 	else
 		log = "OK";
 
-	checktx->log = malloc(strlen(log));
+	checktx->log =(char*)malloc(strlen(log));
 	if ( checktx->log == NULL )
 	{
 		response_free_checktx(checktx);
@@ -127,14 +141,18 @@ static Types__ResponseCheckTx *CheckTx(Types__RequestCheckTx *req)
 	memcpy(checktx->log, log, strlen(log));
 
 	checktx->has_data = 1;
-	hash = get_hash();
-	checktx->data.data = malloc(strlen(hash));
-	if ( checktx->data.data == NULL )
+	hash = get_last_app_hash();
+	if ( hash != NULL )
 	{
-		response_free_checktx(checktx);
-		return NULL;
+		checktx->data.data =(uint8_t*)malloc(HASHLEN);
+		if ( checktx->data.data == NULL )
+		{
+			response_free_checktx(checktx);
+			return NULL;
+		}
+		memcpy(checktx->data.data, hash, HASHLEN);
+		checktx->data.len = HASHLEN;
 	}
-	memcpy(checktx->data.data, hash, strlen(hash));
 
 	return checktx;
 }
@@ -142,8 +160,8 @@ static Types__ResponseCheckTx *CheckTx(Types__RequestCheckTx *req)
 static Types__ResponseCommit *Commit()
 {
 	uint8_t *log = "OK";
-	uint8_t hash[10] = {};
-	Types__CodeType code = 0;
+	uint8_t *hash = NULL;
+	//Types__CodeType code = 0;
 	Types__ResponseCommit *commit = NULL;
 
 	commit = response_malloc_commit();
@@ -154,7 +172,7 @@ static Types__ResponseCommit *Commit()
 	commit->has_code = 1;
 	commit->code = TYPES__CODE_TYPE__OK ;
 
-	commit->log = malloc(strlen(log));
+	commit->log = (char*)malloc(strlen(log));
 	if ( commit->log == NULL )
 	{
 		response_free_commit(commit);
@@ -165,14 +183,15 @@ static Types__ResponseCommit *Commit()
 	if ( get_height() > 0 )
 	{
 		commit->has_data = 1;
-		hash = get_hash();
-		commit->data.data = malloc(strlen(hash));
+		hash = get_last_app_hash();
+		commit->data.data = (uint8_t*)malloc(HASHLEN);
 		if ( commit->data.data == NULL )
 		{
 			response_free_commit(commit);
 			return NULL;
 		}
-		memcpy(commit->data.data, hash, strlen(hash));
+		memcpy(commit->data.data, hash, HASHLEN);
+		commit->data.len = HASHLEN;
 	}
 
 	return commit;

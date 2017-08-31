@@ -29,7 +29,7 @@ int dispose_connect(struct socket_tcp *tsocket, Application app)
 		Types__Response response = {};
 
 		length = readsize(tsocket, READTIMEOUT);
-		if ( length < 1 )
+		if ( length == -1 )
 		{
 			printf("socket closed or receive data error. fd:%d\n", tsocket->fd);
 			return -1;
@@ -77,50 +77,77 @@ static int handle_request(Application app, Types__Request *request, Types__Respo
 			ToResponseFlush(request, response);
 			break ;
 		case TYPES__REQUEST__VALUE_INFO:
-			printf("TYPES__REQUEST__VALUE_INFO\n");
-			ToResponseInfo(request, response);
-			app(request, response);
+			{
+				printf("TYPES__REQUEST__VALUE_INFO\n");
+				Types__ResponseInfo *info = NULL;
+				info = (Types__ResponseInfo*)app(request);
+				ToResponseInfo(request, response, info);
+			}
 			break ;
 		case TYPES__REQUEST__VALUE_SET_OPTION:
-			printf("TYPES__REQUEST__VALUE_OPTION\n");
-			ToResponseSetOption(request, response);
-			app(request, response);
+			{
+				printf("TYPES__REQUEST__VALUE_OPTION\n");
+				Types__ResponseSetOption *setoption = NULL;
+				setoption = (Types__ResponseSetOption*)app(request);
+				ToResponseSetOption(request, response, setoption);
+			}
 			
 			break ;
 		case TYPES__REQUEST__VALUE_DELIVER_TX:
-			printf("TYPES__REQUEST__VALUE_DELIVER_TX\n");
-			ToResponseDeliverTx(request, response);
-			app(request, response);
+			{
+				printf("TYPES__REQUEST__VALUE_DELIVER_TX\n");
+				Types__ResponseDeliverTx *delivertx = NULL;
+				delivertx = (Types__ResponseDeliverTx*)app(request);
+				ToResponseDeliverTx(request, response, delivertx);
+			}
 			break ;
 		case TYPES__REQUEST__VALUE_CHECK_TX:
-			printf("TYPES__REQUEST__VALUE_CHECK_TX\n");
-			ToResponseCheckTx(request, response);
-			app(request, response);
+			{
+				printf("TYPES__REQUEST__VALUE_CHECK_TX\n");
+				Types__ResponseCheckTx *checktx = NULL;
+				checktx = (Types__ResponseCheckTx*)app(request);
+				ToResponseCheckTx(request, response, checktx);
+			}
 			break ;
 		case TYPES__REQUEST__VALUE_COMMIT:
-			printf("TYPES__REQUEST__VALUE_COMMIT\n");
-			ToResponseCommit(request, response);
-			app(request, response);
+			{
+				printf("TYPES__REQUEST__VALUE_COMMIT\n");
+				Types__ResponseCommit *commit = NULL;
+				commit = (Types__ResponseCommit*)app(request);
+				ToResponseCommit(request, response, commit);
+			}
 			break ;
 		case TYPES__REQUEST__VALUE_QUERY:
-			printf("TYPES__REQUEST__VALUE_QUERY\n");
-			ToResponseQuery(request, response);
-			app(request, response);
+			{
+				printf("TYPES__REQUEST__VALUE_QUERY\n");
+				Types__ResponseQuery *query = NULL;
+				query = (Types__ResponseQuery*)app(request);
+				ToResponseQuery(request, response, query);
+			}
 			break ;
 		case TYPES__REQUEST__VALUE_INIT_CHAIN:
-			printf("TYPES__REQUEST__VALUE_INIT_CHAIN\n");
-			ToResponseInitChain(request, response);
-			app(request, response);
+			{
+				printf("TYPES__REQUEST__VALUE_INIT_CHAIN\n");
+				Types__ResponseInitChain *initchain = NULL;
+				initchain = (Types__ResponseInitChain*)app(request);
+				ToResponseInitChain(request, response, initchain);
+			}
 			break ;
 		case TYPES__REQUEST__VALUE_BEGIN_BLOCK:
-			printf("TYPES__REQUEST__VALUE_BEGIN_BLOCK\n");
-			ToResponseBeginBlock(request, response);
-			app(request, response);
+			{
+				printf("TYPES__REQUEST__VALUE_BEGIN_BLOCK\n");
+				Types__ResponseBeginBlock *beginblock = NULL;
+				beginblock = (Types__ResponseBeginBlock*)app(request);
+				ToResponseBeginBlock(request, response, beginblock);
+			}
 			break ;
 		case TYPES__REQUEST__VALUE_END_BLOCK:
-			printf("TYPES__REQUEST__VALUE_END_BLOCK\n");
-			ToResponseEndBlock(request, response);
-			app(request, response);
+			{
+				printf("TYPES__REQUEST__VALUE_END_BLOCK\n");
+				Types__ResponseEndBlock *endblock = NULL;
+				endblock = (Types__ResponseEndBlock*)app(request);
+				ToResponseEndBlock(request, response, endblock);
+			}
 			break ;
 		default:
 			printf("TYPES__REQUEST__VALUE__NOT_SET\n");
@@ -136,10 +163,14 @@ static int handle_response(struct socket_tcp *tsocket, Types__Response *response
 	size_t bytes = 0;
 	uint8_t data[1024] = {};
 
+	if ( tsocket == NULL || response == NULL )
+	{
+		return -1;
+	}
+
 	size = types__response__pack(response, data);
 
 //	size = types__response__get_packed_size(response);
-	printf("fd:%d send value_case:%d send size:%lu\n", tsocket->fd, response->value_case, size);
 
 	if ( sendsize(tsocket, size, SENDTIMEOUT) == -1 )
 		return -1;
@@ -154,40 +185,52 @@ static int handle_response(struct socket_tcp *tsocket, Types__Response *response
 	{
 		case TYPES__RESPONSE__VALUE_ECHO:
 			response_free_echo(response->echo);
+			printf("fd:%d ECHO send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_FLUSH:
 			response_free_flush(response->flush);
+			printf("fd:%d FLUSH send size:%lu\n", tsocket->fd, size);
 		//	flush();
 			break ;
 		case TYPES__RESPONSE__VALUE_INFO:
 			response_free_info(response->info);
+			printf("fd:%d INFO send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_SET_OPTION:
 			response_free_setoption(response->set_option);
+			printf("fd:%d SET_OPTION send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_DELIVER_TX:
 			response_free_delivertx(response->deliver_tx);
+			printf("fd:%d DELIVER_TX send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_CHECK_TX:
 			response_free_checktx(response->check_tx);
+			printf("fd:%d CHECK_TX send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_COMMIT:
 			response_free_commit(response->commit);
+			printf("fd:%d COMMIT send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_QUERY:
 			response_free_query(response->query);
+			printf("fd:%d QUERY send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_INIT_CHAIN:
 			response_free_initchain(response->init_chain);
+			printf("fd:%d INIT_CHAIN send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_BEGIN_BLOCK:
 			response_free_beginblock(response->begin_block);
+			printf("fd:%d BEGIN_BLOCK send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_END_BLOCK:
 			response_free_endblock(response->end_block);
+			printf("fd:%d END_BLOCK send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_EXCEPTION:
 			response_free_exception(response->exception);
+			printf("fd:%d EXCEPTION send size:%lu\n", tsocket->fd, size);
 		default:
 			return -1;
 	}
