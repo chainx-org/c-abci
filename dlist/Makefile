@@ -16,7 +16,7 @@ SRCDIR=./
 LIBDIR=./lib
 OBJDIR=./obj
 TARGET_SO=$(LIBDIR)/libdlist.so
-TARGET_AR=$(LIBDIR)/libsocket.a
+TARGET_AR=$(LIBDIR)/libdlist.a
 TARGET=$(TARGET_SO) $(TARGET_AR)
 SRCLIST=$(wildcard *.c)
 OBJLIST=$(SRCLIST:%.c=$(OBJDIR)/%.o)
