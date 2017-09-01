@@ -1,4 +1,7 @@
-
+/*********************************************************************************************/
+/*                   c-abci.c Created by xuli on 2017/08/25                                  */
+/*                     本文件提供的三个接口供应用程序使用                                    */
+/*********************************************************************************************/
 #include "c-abci.h"
 #include <signal.h>
 #include <sys/types.h>
@@ -23,7 +26,7 @@ int server_init(const char *ipaddr, const char *port)
 }
 
 
-int server_start(Application app)
+void server_start(Application app)
 {
 	pid_t  pid = 0;
 	struct pollfd pollfd =  {};
@@ -63,6 +66,7 @@ int server_start(Application app)
 		printf("new 'ipaddress:%s port:%d' connected. fd:%d pid:%d to deal it\n", csocket.peeraddr, csocket.peerport, csocket.fd, pid);
 		socket_close(&csocket);
 	}
+	 return ;
 }
 
 void server_stop()

@@ -1,6 +1,9 @@
-
-#include "common.h"
-
+/*********************************************************************************************/
+/*                   dispose.c Created by xuli on 2017/08/25                                 */
+/*                     本文件主要处理每个新的连接                                            */
+/*********************************************************************************************/
+#include "internal.h"
+ 
 static int handle_response(struct socket_tcp *tsocket, Types__Response *response);
 
 static int handle_request(Application app, Types__Request *request, Types__Response *response, size_t size);
@@ -185,52 +188,52 @@ static int handle_response(struct socket_tcp *tsocket, Types__Response *response
 	{
 		case TYPES__RESPONSE__VALUE_ECHO:
 			response_free_echo(response->echo);
-			printf("fd:%d ECHO send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_ECHO send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_FLUSH:
 			response_free_flush(response->flush);
-			printf("fd:%d FLUSH send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_FLUSH send size:%lu\n", tsocket->fd, size);
 		//	flush();
 			break ;
 		case TYPES__RESPONSE__VALUE_INFO:
 			response_free_info(response->info);
-			printf("fd:%d INFO send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_INFO send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_SET_OPTION:
 			response_free_setoption(response->set_option);
-			printf("fd:%d SET_OPTION send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_SET_OPTION send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_DELIVER_TX:
 			response_free_delivertx(response->deliver_tx);
-			printf("fd:%d DELIVER_TX send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_DELIVER_TX send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_CHECK_TX:
 			response_free_checktx(response->check_tx);
-			printf("fd:%d CHECK_TX send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_CHECK_TX send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_COMMIT:
 			response_free_commit(response->commit);
-			printf("fd:%d COMMIT send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_COMMIT send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_QUERY:
 			response_free_query(response->query);
-			printf("fd:%d QUERY send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_QUERY send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_INIT_CHAIN:
 			response_free_initchain(response->init_chain);
-			printf("fd:%d INIT_CHAIN send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_INIT_CHAIN send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_BEGIN_BLOCK:
 			response_free_beginblock(response->begin_block);
-			printf("fd:%d BEGIN_BLOCK send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_BEGIN_BLOCK send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_END_BLOCK:
 			response_free_endblock(response->end_block);
-			printf("fd:%d END_BLOCK send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_END_BLOCK send size:%lu\n", tsocket->fd, size);
 			break ;
 		case TYPES__RESPONSE__VALUE_EXCEPTION:
 			response_free_exception(response->exception);
-			printf("fd:%d EXCEPTION send size:%lu\n", tsocket->fd, size);
+			printf("fd:%d RESPONSE_EXCEPTION send size:%lu\n", tsocket->fd, size);
 		default:
 			return -1;
 	}

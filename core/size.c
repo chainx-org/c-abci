@@ -1,5 +1,8 @@
-
-#include "common.h"
+/*********************************************************************************************/
+/*                     size.c Created by xuli on 2017/08/26                                  */
+/*                          本文件读取和发送数据长                                           */
+/*********************************************************************************************/
+#include "internal.h"
 
 size_t readsize(struct socket_tcp *tsocket, int timeout)
 {
@@ -69,7 +72,7 @@ size_t sendsize(struct socket_tcp *tsocket, size_t length, int timeout)
 		length = -length; 
 	}
 
-	bits = getbits((uint64_t)length); /* 闀垮一共有几个字节  */
+	bits = getbits((uint64_t)length); /* 一共有几个字节  */
 
 	if ( negate )
 		size = (uint8_t)(bits + 0xF0);
