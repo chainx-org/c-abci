@@ -22,7 +22,6 @@ SRCLIST=$(wildcard *.c)
 OBJLIST=$(SRCLIST:%.c=$(OBJDIR)/%.o)
 ############################################################################
 
-
 ifeq ($(LIB_ROOT_DIR),)
 	CP=
 else
